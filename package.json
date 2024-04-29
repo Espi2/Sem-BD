@@ -1,0 +1,15 @@
+{
+  "name": "sem-bd",
+  "version": "1.0.0",
+  "description": "Proyecto para la materia de seminario de bases de datos con la profesora Zoila Liliana Herrera Lujan",
+  "main": "index.js",
+  "scripts": {
+    "install": "cd client && npm install && cd ../server && npm install",
+    "start": "npm run server",
+    "server": "cd server && npm start",
+    "client": "cd client && npm start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
