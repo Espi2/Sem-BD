@@ -13,31 +13,55 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Inquilino {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name      String   @db.VarChar(255)
-  casa      Casa     @relation(fields: [casaId], references: [id])
-  casaId    Int
-}
-
-model Servicio {
-  id              Int      @id @default(autoincrement())
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  basura          Boolean  @default(true)
-  estacionamiento Boolean  @default(true)
-  porton          Boolean  @default(true)
-  casa            Casa     @relation(fields: [casaId], references: [id])
-  casaId          Int      @unique
+model Habitante {
+  id_habitante Int     @id @default(autoincrement())
+  nombre       String  @db.VarChar(255)
+  ap           String? @db.VarChar(255)
+  am           String? @db.VarChar(255)
+  propietario  Boolean @default(false)
+  casa         Casa    @relation(fields: [num_casa_fk], references: [num_casa])
+  num_casa_fk  Int
 }
 
 model Casa {
-  id         Int         @id
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  adeudo     Float       @db.Real
-  inquilinos Inquilino[]
-  servicios  Servicio?
+  num_casa       Int         @id @db.Integer
+  calle          String      @db.VarChar(255)
+  num_habitantes Int         @db.SmallInt
+  telefono1      String      @db.VarChar(12)
+  telefono2      String      @db.VarChar(12)
+  habitantes     Habitante[]
+  cuota          Cuota[]
+  servicio       Servicio?
+}
+
+model Cuota {
+  id_cuota     Int      @id @default(autoincrement())
+  monto        Float
+  fecha_limite DateTime
+  pagado       Boolean  @default(false)
+  casa         Casa     @relation(fields: [num_casa_fk], references: [num_casa])
+  num_casa_fk  Int
+}
+
+model Servicio {
+  id_servicio     Int     @id @default(autoincrement())
+  estacionamiento Boolean @default(true)
+  porton          Boolean @default(true)
+  basura          Boolean @default(true)
+  casa            Casa    @relation(fields: [num_casa_fk], references: [num_casa])
+  num_casa_fk     Int     @unique
+}
+
+model Administrador {
+  usuario    String  @id
+  contrasena String  @db.VarChar(255)
+  nombre     String  @db.VarChar(255)
+  ap         String? @db.VarChar(255)
+  am         String? @db.VarChar(255)
+}
+
+model Notificacion {
+  id_notificacion Int     @id @default(autoincrement())
+  mensaje         String  @db.VarChar(255)
+  resuelto        Boolean @default(false)
 }
