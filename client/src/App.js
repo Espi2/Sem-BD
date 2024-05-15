@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
-import logo from "./logo.svg";
 import "./App.css";
+import Login from "./components/Login/index.tsx";
+import Menu from "./components/Menu/index.tsx";
+import Register from "./components/Register/index.tsx";
+
 function App() {
   const [data, setData] = useState(null);
   useEffect(() => {
@@ -20,13 +23,17 @@ function App() {
     };
     callBackendAPI();
   }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img className="App-logo" src={logo} alt="logo" />
-        <h1 className="App-title">Welcome to React</h1>
-        <p style={{ color: "white" }}>{data}</p>
-      </header>
+    <div>
+      {/* <nav className="navbar bg-body-tertiary">
+        <div className="container-fluid">
+          <span className="navbar-letra mb-0 h1">Granate</span>
+        </div>
+      </nav> */}
+      {/* <Login></Login> */}
+      <Menu></Menu>
+      {/* <Register></Register> */}
     </div>
   );
 }
