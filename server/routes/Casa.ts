@@ -82,6 +82,55 @@ router.post("/", async (req, res) => {
         res.status(200).json({ casa: nuevaCasa, servicio: nuevoServicio });
       } else {
         res.status(403).json({ error: "Mala peticion para servicio" });
+        console.log("Servicio");
+      }
+    } else {
+      
+      res.status(403).json({ error: "Mala peticion para casa" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Hubo un error al crear la casa", err });
+  }
+});
+
+router.post("/casa_y_propietario", async (req, res) => {
+  try {
+    const {
+      num_casa,
+      calle,
+      num_habitantes,
+      telefono1,
+      telefono2,
+      propietario,
+    } = req.body;
+    const nuevaCasa = await prisma.casa.create({
+      data: {
+        num_casa,
+        calle,
+        num_habitantes,
+        telefono1,
+        telefono2,
+      },
+    });
+
+    if (nuevaCasa) {
+      propietario.num_casa_fk = num_casa;
+      const nuevoPropietario = await prisma.habitante.create({
+        data: {
+          nombre: propietario.nombre,
+          ap: propietario.ap,
+          am: propietario.am,
+          num_casa_fk: num_casa,
+          propietario: true,
+        },
+      });
+
+      if (nuevoPropietario) {
+        res.status(200).json({ casa: nuevaCasa, propietario: nuevoPropietario });
+      } else {
+        res.status(403).json({ error: "Mala peticion para servicio" });
+        console.log("persona");
       }
     } else {
       res.status(403).json({ error: "Mala peticion para casa" });

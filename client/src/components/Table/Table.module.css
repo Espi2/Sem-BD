@@ -1,3 +1,16 @@
+.contenedorPrincipal {
+  position: relative;
+  margin-left: 250px;
+}
+
+.espacioTotal {
+  display: flex;
+  position: absolute;
+  width: calc(100% - 250px);
+  width: 100%;
+  height: 100%;
+}
+
 .container {
   display: flex;
   justify-content: center;
@@ -5,18 +18,13 @@
   height: 40vh;
   position: relative;
   top: 0;
-  right: 30%;
 }
 
 .containerTable {
-  align-items: flex-start;
+  justify-self: center;
   display: flex;
   justify-content: center;
   margin-top: 20px;
-  width: 70%;
-  position: relative;
-  left: 25%;
-  top: 100%;
 }
 
 table {
@@ -29,12 +37,58 @@ table {
   justify-content: center;
   align-items: center;
   margin-top: 20px;
-  margin-left: 50%;
-  width: 30%;
+  width: 50%;
   border-radius: 2rem;
   text-align: center;
   height: 50px;
-  margin-bottom: 20px;
   position: relative;
-  right: 5%;
+}
+
+.btnAddHouse {
+  position: relative; /* Cambiado a posicionamiento relativo */
+  z-index: 1000 !important;
+  margin-top: 20px; /* Ajusta la distancia desde el borde superior del contenedor */
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btnAddHouse:hover {
+  background-color: #0056b3;
+}
+
+.Tablas {
+  display: flex;
+  flex-direction: column; /* Establece la dirección del eje principal como columna */
+  align-items: center;
+}
+
+.Tablas::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Color de fondo difuminado */
+  z-index: 999; /* Asegura que esté encima de todo */
+}
+
+.btn {
+  text-align: center;
+  border-radius: 2rem;
+  background-color: plum;
+  width: 25%;
+  height: 40px;
+}
+
+.prueba {
+  justify-self: center;
+  position: absolute;
+  z-index: 1000000 !important;
+  background-color: aqua;
 }
