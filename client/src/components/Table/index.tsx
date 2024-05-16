@@ -136,6 +136,10 @@ const Table = () => {
       style: {
         minHeight: "60px", // override the row height
         width: "100%",
+        "&:hover": {
+          backgroundColor: "#f2f2f2", // Cambiar el color de fondo al pasar el ratón por encima
+          cursor: "pointer", // Cambiar el cursor al pasar el ratón por encima
+        },
       },
     },
     headCells: {
