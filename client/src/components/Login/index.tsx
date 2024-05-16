@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./Login.module.css";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [usuario, setUsuario] = useState("");
   const [contrasena, setContrasena] = useState("");
   const [error, setError] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,10 +29,11 @@ function Login() {
     }
   };
 
-  if (isLoggedIn) {
-    //return redirect("/");
-    // console.log("redireccion");
-  }
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/menu");
+    }
+  }, [navigate, isLoggedIn]);
 
   return (
     <div className={styles.container}>

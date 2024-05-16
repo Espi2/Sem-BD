@@ -44,7 +44,7 @@ function Register() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Sign Up</h1>
+      <h1 className={styles.title}>Registro</h1>
       <form className={styles.form} onSubmit={handleSubmit}>
         <div className={styles.inputGroup}>
           <label htmlFor="inputNombre" className={styles.label}>

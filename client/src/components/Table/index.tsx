@@ -110,11 +110,13 @@ const Table = () => {
     {
       name: "Propietario",
       selector: (row) =>
-        [
-          row.habitantes[0].nombre,
-          row.habitantes[0].ap,
-          row.habitantes[0].am,
-        ].join(" "),
+        row.habitantes.length > 0
+          ? [
+              row.habitantes[0].nombre,
+              row.habitantes[0].ap,
+              row.habitantes[0].am,
+            ].join(" ")
+          : "Sin habitantes",
       sortable: true,
     },
   ];
@@ -185,11 +187,13 @@ const Table = () => {
           handleClose={handleCloseAgregar}
         />
 
-        <EditHouseModal
-          show={showEditForm}
-          handleClose={handleCloseEditar}
-          rowData={selectedRowData}
-        />
+        {selectedRowData && (
+          <EditHouseModal
+            show={showEditForm}
+            handleClose={handleCloseEditar}
+            rowData={selectedRowData}
+          />
+        )}
       </div>
     </div>
   );

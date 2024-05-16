@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import Login from "./components/Login/index.tsx";
-import Menu from "./components/Menu/index.tsx";
-import Register from "./components/Register/index.tsx";
 
 function App() {
   const [data, setData] = useState(null);
@@ -26,14 +24,12 @@ function App() {
 
   return (
     <div>
-      {/* <nav className="navbar bg-body-tertiary">
+      <nav className="navbar bg-body-tertiary">
         <div className="container-fluid">
           <span className="navbar-letra mb-0 h1">Granate</span>
         </div>
-      </nav> */}
-      {/* <Login></Login> */}
-      <Menu></Menu>
-      {/* <Register></Register> */}
+      </nav>
+      <Login></Login>
     </div>
   );
 }
