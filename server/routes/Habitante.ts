@@ -53,6 +53,50 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/propietarios", async (req, res) => {
+  try {
+    const propietarios = await prisma.habitante.findMany({
+      where: {
+        propietario: true,
+      },
+      include: {
+        casa: true,
+      },
+    });
+    if (propietarios) {
+      res.status(200).json({ propietarios });
+    } else {
+      res.status(404).json({ error: "No se encontraron habitantes" });
+    }
+  } catch (err) {
+    res
+      .status(500)
+      .json({ error: "Fallo del servidor al recabar habitante", err });
+  }
+});
+
+router.get("/familias", async (req, res) => {
+  try {
+    const familias = await prisma.habitante.findMany({
+      where: {
+        propietario: false,
+      },
+      include: {
+        casa: true,
+      },
+    });
+    if (familias) {
+      res.status(200).json({ familias });
+    } else {
+      res.status(404).json({ error: "No se encontraron familias" });
+    }
+  } catch (err) {
+    res
+      .status(500)
+      .json({ error: "Fallo del servidor al recabar familias", err });
+  }
+});
+
 router.get("/propietario/:num_casa", async (req, res) => {
   const num_casa = parseInt(req.params.num_casa);
   try {

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./Menu.module.css";
 import Table from "../Table/index.tsx";
 import Register from "../Register/index.tsx";
+import PropietariosComp from "../Propietarios/index.tsx";
 
 const Menu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -97,8 +98,10 @@ const Menu = () => {
           <Register />
         ) : selectedOption === "Casas" ? (
           <Table />
+        ) : selectedOption === "Propietarios" ? (
+          <PropietariosComp />
         ) : (
-          ""
+          <div>Loading...</div>
         )}
       </div>
     </div>
