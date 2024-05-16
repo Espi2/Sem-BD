@@ -25,6 +25,7 @@ type familiar = {
 export default function PropietariosComp() {
   const [records, setRecords] = useState<propietario[]>([]);
   const [familia, setFamilia] = useState<{ [key: number]: familiar[] }>({});
+  const [expandedRow, setExpandedRow] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -116,7 +117,8 @@ export default function PropietariosComp() {
   };
 
   const handleRowExpand = async (expanded, row: propietario) => {
-    if (expanded && !familia[row.num_casa_fk]) {
+    if (expanded) {
+      setExpandedRow(row.num_casa_fk);
       try {
         const response = await axios.get(
           `/api/habitante/familia/${row.num_casa_fk}`
@@ -128,6 +130,8 @@ export default function PropietariosComp() {
       } catch (error) {
         console.error("Error al obtener los datos de la familia:", error);
       }
+    } else {
+      setExpandedRow(null);
     }
   };
 
@@ -176,6 +180,8 @@ export default function PropietariosComp() {
                 <SubTable data={familia[data.num_casa_fk] || []} />
               )}
               onRowExpandToggled={handleRowExpand}
+              expandableRowExpanded={(row) => expandedRow === row.num_casa_fk}
+              noDataComponent="No hay registros para mostrar"
             />
           </div>
         </div>

@@ -38,4 +38,10 @@
 .subOption {
   padding: 20px;
   padding-left: 50px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.subOption:hover {
+  cursor: pointer;
+  background-color: #d1c4e9;
 }

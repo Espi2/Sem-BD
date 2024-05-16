@@ -38,6 +38,7 @@ model Cuota {
   id_cuota     Int      @id @default(autoincrement())
   monto        Float
   fecha_limite DateTime
+  motivo       String
   pagado       Boolean  @default(false)
   casa         Casa     @relation(fields: [num_casa_fk], references: [num_casa])
   num_casa_fk  Int
