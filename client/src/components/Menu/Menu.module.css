@@ -1,0 +1,41 @@
+.sidebar {
+  width: 250px;
+  height: 100%;
+  background-color: #f0e6f6;
+  position: fixed;
+  top: 0;
+  left: 0px;
+  transition: right 0.3s ease-in-out;
+}
+
+.open {
+  right: 0;
+}
+
+.menuButton {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.options {
+  padding: 20px;
+}
+
+.option {
+  padding: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.option:hover {
+  background-color: #d1c4e9;
+}
+
+.selected {
+  background-color: #ba68c8;
+}
+
+.subOption {
+  padding: 20px;
+  padding-left: 50px;
+}

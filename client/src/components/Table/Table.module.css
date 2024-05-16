@@ -1,0 +1,40 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40vh;
+  position: relative;
+  top: 0;
+  right: 30%;
+}
+
+.containerTable {
+  align-items: flex-start;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  width: 70%;
+  position: relative;
+  left: 25%;
+  top: 100%;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.inputSearch {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  margin-left: 50%;
+  width: 30%;
+  border-radius: 2rem;
+  text-align: center;
+  height: 50px;
+  margin-bottom: 20px;
+  position: relative;
+  right: 5%;
+}

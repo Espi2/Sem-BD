@@ -1,16 +1,9 @@
+import express, { Router, Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import bcrypt from "bcrypt";
 
-import * as bcrypt from "bcrypt";
-
-import express, {
-  Router,
-  Request,
-  Response,
-  NextFunction,
-  Errback,
-} from "express";
 const router: Router = express.Router();
+const prisma = new PrismaClient();
 
 router.post("/", async (req: Request, res: Response) => {
   try {
@@ -25,7 +18,7 @@ router.post("/", async (req: Request, res: Response) => {
         am,
       },
     });
-    res.status(200).json({ nombre, ap, am, usuario, hashedPassword });
+    res.status(200).json({ nombre, ap, am, usuario });
   } catch (error) {
     res
       .status(500)
@@ -33,24 +26,23 @@ router.post("/", async (req: Request, res: Response) => {
   }
 });
 
-router.get("/:usuario/:contrasena", async (req: Request, res: Response) => {
+router.post("/login", async (req: Request, res: Response) => {
   try {
-    const { usuario, contrasena } = req.params;
-    const admin =
-      (await prisma.administrador.findUnique({
-        where: {
-          usuario,
-        },
-      })) || null;
+    const { usuario, contrasena } = req.body;
+    const admin = await prisma.administrador.findUnique({
+      where: {
+        usuario,
+      },
+    });
     if (!admin) {
-      res.status(404).json({ error: "No se encontro el administrador" });
+      res.status(404).json({ error: "No se encontró el administrador" });
     } else {
       const isMatch = await bcrypt.compare(contrasena, admin.contrasena);
       if (!isMatch) {
-        res.status(403).json({ error: "Contrasena incorrecta" });
+        res.status(403).json({ error: "Contraseña incorrecta" });
       } else {
         res.status(200).json({
-          message: "Autenticacion correcta",
+          message: "Autenticación correcta",
           nombre: admin.nombre,
           ap: admin.ap,
           am: admin.am,
