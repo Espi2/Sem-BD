@@ -139,6 +139,7 @@ router.get("/familia/:num_casa", async (req, res) => {
       const familia = await prisma.habitante.findMany({
         where: {
           num_casa_fk: num_casa,
+          propietario: false,
         },
       });
       if (familia) {
