@@ -1,11 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import Menu from "./components/Menu/index.tsx";
+import Login from "./components/Login/index.tsx";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  Navigate,
+} from "react-router-dom";
+
+// Función para verificar si el usuario está autenticado (simulada)
+const isAuthenticated = () => {
+  const authenticated = localStorage.getItem("isLoggedIn") === "true";
+  return authenticated;
+};
+
+// Componente para proteger las rutas privadas
+const ProtectedRoute = ({ element, ...rest }) => {
+  return isAuthenticated() ? element : <Navigate to="/login" />;
+};
 
 const router = createBrowserRouter([
   {
@@ -14,7 +31,16 @@ const router = createBrowserRouter([
   },
   {
     path: "/menu/",
-    element: <Menu />,
+    element: <ProtectedRoute element={<Menu />} />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  // Define una ruta protegida para cualquier ruta no manejada
+  {
+    path: "*",
+    element: <ProtectedRoute element={<Navigate to="/login" />} />,
   },
 ]);
 
@@ -25,7 +51,4 @@ root.render(
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
