@@ -8,6 +8,7 @@ import authRoute from "./routes/Auth";
 import casaRoute from "./routes/Casa";
 import servicioRoute from "./routes/Servicio";
 import habitanteRoute from "./routes/Habitante";
+import cuotaRoute from "./routes/Cuota";
 
 app.use(express.json());
 app.use(cors());
@@ -16,6 +17,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/casa", casaRoute);
 app.use("/api/servicio", servicioRoute);
 app.use("/api/habitante", habitanteRoute);
+app.use("/api/cuota", cuotaRoute);
 
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({ message: "Hola desde express (Con TypeScript) en /" });
