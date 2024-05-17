@@ -18,8 +18,10 @@ function Login() {
         contrasena,
       });
       console.log(response.data);
-
-      setIsLoggedIn(true);
+      if (response.data.message === "Autenticación correcta") {
+        setIsLoggedIn(true);
+        localStorage.setItem("isLoggedIn", "true");
+      }
     } catch (error) {
       setError("Usuario o contraseña incorrectos");
 

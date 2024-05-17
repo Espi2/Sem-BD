@@ -3,11 +3,26 @@ import styles from "./Menu.module.css";
 import Table from "../Table/index.tsx";
 import Register from "../Register/index.tsx";
 import PropietariosComp from "../Propietarios/index.tsx";
+import PagosPendientes from "../Pagos/Pendientes/index.tsx";
+import PagosResueltos from "../Pagos/Resueltos/index.tsx";
+import { useNavigate } from "react-router-dom";
+
+import SalirModal from "./salirModal.tsx";
 
 const Menu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isPaymentsOpen, setIsPaymentsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [showSalir, setShowSalir] = useState(false);
+  const navigate = useNavigate();
+
+  const handleShowSalir = () => {
+    setShowSalir(true);
+  };
+
+  const handleCloseSalir = () => {
+    setShowSalir(false);
+  };
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -90,6 +105,14 @@ const Menu = () => {
           >
             Soporte
           </div>
+          <div
+            className={`${styles.option} ${
+              selectedOption === "Soporte" ? styles.selected : ""
+            }`}
+            onClick={handleShowSalir}
+          >
+            Salir
+          </div>
         </div>
       </div>
 
@@ -100,10 +123,16 @@ const Menu = () => {
           <Table />
         ) : selectedOption === "Propietarios" ? (
           <PropietariosComp />
+        ) : selectedOption === "Registros" ? (
+          <PagosResueltos />
+        ) : selectedOption === "Adeudos" ? (
+          <PagosPendientes />
         ) : (
           <div>Loading...</div>
         )}
       </div>
+
+      <SalirModal show={showSalir} handleClose={handleCloseSalir} />
     </div>
   );
 };
