@@ -58,9 +58,94 @@ router.post("/paraTodos", async (req, res) => {
   }
 });
 
+router.post("/paraUno/:num_casa", async (req, res) => {
+  const { monto, fecha_limite, motivo } = req.body;
+  const num_casa = parseInt(req.params.num_casa);
+
+  // Validar los datos de entrada
+  if (
+    typeof monto !== "number" ||
+    isNaN(new Date(fecha_limite).getTime()) ||
+    typeof motivo !== "string"
+  ) {
+    return res.status(400).json({ error: "Datos de entrada no válidos" });
+  }
+
+  try {
+    const casas = await prisma.casa.findMany({
+      where: {
+        num_casa,
+      },
+    });
+
+    if (!casas || casas.length === 0) {
+      return res.status(404).json({ error: "No existe la casa" });
+    }
+    const casa = casas[0];
+
+    const cuota: cuota = {
+      monto,
+      fecha_limite: new Date(fecha_limite),
+      motivo,
+      num_casa_fk: casa.num_casa,
+    };
+
+    const result = await prisma.cuota.create({ data: cuota });
+
+    res.status(201).json({ message: "Cuotas creadas exitosamente", result });
+  } catch (err) {
+    res.status(500).json({
+      error: "Fallo del servidor al procesar la solicitud",
+      details: err,
+    });
+  }
+});
+
 router.get("/", async (req, res) => {
   try {
     const cuotas = await prisma.cuota.findMany({
+      include: {
+        casa: true,
+      },
+    });
+    if (!cuotas || cuotas.length === 0) {
+      return res.status(404).json({ error: "No se encontraron habitantes" });
+    }
+    res.status(200).json({ cuotas });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ error: "Fallo del servidor al recabar habitante", err });
+  }
+});
+
+router.get("/pendientes", async (req, res) => {
+  try {
+    const cuotas = await prisma.cuota.findMany({
+      where: {
+        pagado: false,
+      },
+      include: {
+        casa: true,
+      },
+    });
+    if (!cuotas || cuotas.length === 0) {
+      return res.status(404).json({ error: "No se encontraron habitantes" });
+    }
+    res.status(200).json({ cuotas });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ error: "Fallo del servidor al recabar habitante", err });
+  }
+});
+
+router.get("/resueltos", async (req, res) => {
+  try {
+    const cuotas = await prisma.cuota.findMany({
+      where: {
+        pagado: true,
+      },
       include: {
         casa: true,
       },

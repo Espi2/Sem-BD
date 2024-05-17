@@ -2,11 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Button } from "react-bootstrap";
 import DataTable from "react-data-table-component";
-import { Check2 } from "react-bootstrap-icons"; // Importa el icono de lápiz
-import styles from "./Pendientes.module.css";
-import IndividualCuotaForm from "./individualForm.tsx";
-import GeneralCuotaForm from "./generalForm.tsx";
-import LiquidarModal from "./liquidarModal.tsx";
+import styles from "./Resueltos.module.css";
 
 type cuota = {
   id_cuota: number;
@@ -17,51 +13,14 @@ type cuota = {
   num_casa_fk: number;
 };
 
-const PagosPendientes = () => {
+const PagosResueltos = () => {
   const [originalRecords, setOriginalRecords] = useState<cuota[]>([]);
   const [filteredRecords, setFilteredRecords] = useState<cuota[]>([]);
-  const [showGeneralForm, setShowGeneralForm] = useState(false);
-  const [showIndividualForm, setShowIndividualForm] = useState(false);
-  const [showConfirmar, setShowConfirmar] = useState(false);
-  const [Sid_cuota, setSid_cuota] = useState();
-
-  const handleShowGeneral = () => {
-    setShowGeneralForm(true);
-  };
-
-  const handleCloseGeneral = (flag) => {
-    setShowGeneralForm(false);
-    if (flag) {
-      updateCuotas();
-    }
-  };
-
-  const handleShowIndividual = () => {
-    setShowIndividualForm(true);
-  };
-
-  const handleCloseIndividual = (flag) => {
-    setShowIndividualForm(false);
-    if (flag) {
-      updateCuotas();
-    }
-  };
-
-  const handleShowConfirmar = () => {
-    setShowConfirmar(true);
-  };
-
-  const handleCloseConfirmar = (flag) => {
-    setShowConfirmar(false);
-    if (flag) {
-      updateCuotas();
-    }
-  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/api/cuota/pendientes");
+        const response = await axios.get("/api/cuota/resueltos");
         let cuotas: cuota[] = response.data.cuotas;
         cuotas = cuotas.map((cuota: cuota) => ({
           ...cuota,
@@ -84,26 +43,6 @@ const PagosPendientes = () => {
 
     fetchData();
   }, []);
-
-  const updateCuotas = async () => {
-    try {
-      const response = await axios.get("/api/cuota/pendientes");
-      let cuotas: cuota[] = response.data.cuotas;
-      cuotas = cuotas.map((cuota: cuota) => ({
-        ...cuota,
-        fecha_limite: new Date(cuota.fecha_limite).toLocaleDateString("es-ES", {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        }),
-      }));
-      setOriginalRecords(cuotas);
-      setFilteredRecords(cuotas);
-    } catch (error) {
-      console.error("Error al obtener los datos de las cuotas:", error);
-    }
-  };
 
   const columns = [
     {
@@ -130,33 +69,7 @@ const PagosPendientes = () => {
       selector: (row) => (row.pagado ? "Sí" : "No"),
       sortable: true,
     },
-    {
-      name: "Liquidar",
-      cell: (row) => (
-        <Button
-          onClick={() => {
-            setSid_cuota(row.id_cuota);
-            handleShowConfirmar();
-          }}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            height: "45px",
-            width: "45px",
-          }}
-        >
-          <Check2 size={100} />
-        </Button>
-      ),
-      button: true,
-    },
   ];
-
-  /* 
-  <Button onClick={() => handleShowEditar(row)}>
-          <PencilSquare />
-        </Button>
-  */
 
   const handleChange = (e) => {
     const searchText = e.target.value.toLowerCase();
@@ -209,34 +122,10 @@ const PagosPendientes = () => {
               customStyles={customStyles}
             />
           </div>
-          <div style={{ display: "flex" }}>
-            <button className={styles.btn} onClick={handleShowGeneral}>
-              Cuota general
-            </button>
-            <button className={styles.btn} onClick={handleShowIndividual}>
-              Cuota individual
-            </button>
-          </div>
         </div>
-
-        <IndividualCuotaForm
-          show={showIndividualForm}
-          handleClose={handleCloseIndividual}
-        />
-
-        <GeneralCuotaForm
-          show={showGeneralForm}
-          handleClose={handleCloseGeneral}
-        />
-
-        <LiquidarModal
-          show={showConfirmar}
-          handleClose={handleCloseConfirmar}
-          id_cuota={Sid_cuota}
-        />
       </div>
     </div>
   );
 };
 
-export default PagosPendientes;
+export default PagosResueltos;
