@@ -7,7 +7,7 @@ const EliminarHab = ({ show, handleClose, id_habitante }) => {
   const eliminarHabitante = async () => {
     try {
       await axios.delete(`/api/habitante/elim/${id_habitante}`);
-      handleClose(); // Cerrar el modal después de eliminar
+      handleClose(true); // Cerrar el modal después de eliminar
     } catch (err) {
       console.log("Error al eliminar habitante:", err);
     }

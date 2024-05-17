@@ -54,7 +54,7 @@ const EditHabitantModal = ({ show, handleClose, rowData, dataFamilia }) => {
 
     try {
       const { id_habitante, nombre, ap, am } = habitantData;
-      await axios.patch(`/api/habitante/${id_habitante}`, {
+      await axios.patch(`/api/habitante/edit/${id_habitante}`, {
         nombre,
         ap,
         am,
@@ -132,7 +132,10 @@ const EditHabitantModal = ({ show, handleClose, rowData, dataFamilia }) => {
       </Modal>
       <EliminarHab
         show={showDeleteModal}
-        handleClose={() => setShowDeleteModal(false)}
+        handleClose={() => {
+          setShowDeleteModal(false);
+          handleClose(true);
+        }}
         id_habitante={habitantData.id_habitante}
       />
     </>
