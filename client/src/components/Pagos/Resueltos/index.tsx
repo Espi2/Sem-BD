@@ -79,27 +79,36 @@ const PagosResueltos = () => {
     setFilteredRecords(filteredData);
   };
 
+  const getRowClassName = (row) => {
+    const deadlineDate = new Date(row.fecha_limite);
+    const currentDate = new Date();
+
+    return deadlineDate > currentDate ? styles.rowRed : "";
+  };
+
   const customStyles = {
     rows: {
       style: {
-        minHeight: "60px", // override the row height
+        minHeight: "60px",
         width: "100%",
         "&:hover": {
-          backgroundColor: "#f2f2f2", // Cambiar el color de fondo al pasar el ratón por encima
-          cursor: "pointer", // Cambiar el cursor al pasar el ratón por encima
+          backgroundColor: "#f2f2f2",
+          cursor: "pointer",
         },
       },
+      // Aplica la clase de fila condicionalmente
+      className: (row) => getRowClassName(row),
     },
     headCells: {
       style: {
-        paddingLeft: "8px", // override the cell padding for head cells
+        paddingLeft: "8px",
         paddingRight: "8px",
         marginTop: "0%",
       },
     },
     cells: {
       style: {
-        paddingLeft: "8px", // override the cell padding for data cells
+        paddingLeft: "8px",
         paddingRight: "8px",
       },
     },

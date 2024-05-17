@@ -85,7 +85,6 @@ router.post("/", async (req, res) => {
         console.log("Servicio");
       }
     } else {
-      
       res.status(403).json({ error: "Mala peticion para casa" });
     }
   } catch (err) {
@@ -95,27 +94,21 @@ router.post("/", async (req, res) => {
 });
 
 router.post("/casa_y_propietario", async (req, res) => {
-  try {
-    const {
-      num_casa,
-      calle,
-      num_habitantes,
-      telefono1,
-      telefono2,
-      propietario,
-    } = req.body;
-    const nuevaCasa = await prisma.casa.create({
-      data: {
-        num_casa,
-        calle,
-        num_habitantes,
-        telefono1,
-        telefono2,
-      },
-    });
+  const { num_casa, calle, num_habitantes, telefono1, telefono2, propietario } =
+    req.body;
 
-    if (nuevaCasa) {
-      propietario.num_casa_fk = num_casa;
+  try {
+    await prisma.$transaction(async (prisma) => {
+      const nuevaCasa = await prisma.casa.create({
+        data: {
+          num_casa,
+          calle,
+          num_habitantes,
+          telefono1,
+          telefono2,
+        },
+      });
+
       const nuevoPropietario = await prisma.habitante.create({
         data: {
           nombre: propietario.nombre,
@@ -126,17 +119,21 @@ router.post("/casa_y_propietario", async (req, res) => {
         },
       });
 
-      if (nuevoPropietario) {
-        res.status(200).json({ casa: nuevaCasa, propietario: nuevoPropietario });
-      } else {
-        res.status(403).json({ error: "Mala peticion para servicio" });
-        console.log("persona");
-      }
-    } else {
-      res.status(403).json({ error: "Mala peticion para casa" });
-    }
+      const nuevoServicio = await prisma.servicio.create({
+        data: {
+          num_casa_fk: num_casa,
+          porton: true,
+          basura: true,
+          estacionamiento: true,
+        },
+      });
+
+      return { nuevaCasa, nuevoPropietario, nuevoServicio };
+    });
+
+    res.status(200).json({ success: true });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).json({ error: "Hubo un error al crear la casa", err });
   }
 });

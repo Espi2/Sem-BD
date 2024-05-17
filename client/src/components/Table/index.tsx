@@ -21,14 +21,22 @@ type casa = {
   num_habitantes: number;
   telefono1: string;
   telefono2: string;
-  habitantes: [];
+  habitantes: habitante[];
   cuota: [];
-  servicio: {};
+  servicio: servicio;
+};
+
+type servicio = {
+  id_servicio: number;
+  estacionamiento: boolean;
+  porton: boolean;
+  basura: boolean;
+  num_casa_fk: number;
 };
 
 const Table = () => {
-  const [originalRecords, setOriginalRecords] = useState([]);
-  const [filteredRecords, setFilteredRecords] = useState([]);
+  const [originalRecords, setOriginalRecords] = useState<casa[]>([]);
+  const [filteredRecords, setFilteredRecords] = useState<casa[]>([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState(null);
@@ -64,7 +72,6 @@ const Table = () => {
         const response = await axios.get("/api/casa/");
         setOriginalRecords(response.data.casas);
         setFilteredRecords(response.data.casas);
-        console.log(response.data);
       } catch (error) {
         console.error("Error al obtener los datos de casa:", error);
       }
@@ -83,45 +90,7 @@ const Table = () => {
     }
   };
 
-  const columns = [
-    {
-      name: "Numero Casa",
-      selector: (row) => row.num_casa,
-      sortable: true,
-    },
-    {
-      name: "Calle",
-      selector: (row) => row.calle,
-      sortable: true,
-    },
-    {
-      name: "Numero Habitantes",
-      selector: (row) => row.num_habitantes,
-      sortable: true,
-    },
-    {
-      name: "Telefono 1",
-      selector: (row) => row.telefono1,
-    },
-    {
-      name: "Telefono 2",
-      selector: (row) => row.telefono2,
-    },
-    {
-      name: "Propietario",
-      selector: (row) =>
-        row.habitantes.length > 0
-          ? [
-              row.habitantes[0].nombre,
-              row.habitantes[0].ap,
-              row.habitantes[0].am,
-            ].join(" ")
-          : "Sin habitantes",
-      sortable: true,
-    },
-  ];
-
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchText = e.target.value.toLowerCase();
     const filteredData = originalRecords.filter((record: casa) =>
       record.habitantes.some((habitante: habitante) =>
@@ -133,27 +102,117 @@ const Table = () => {
     setFilteredRecords(filteredData);
   };
 
+  const handleCheckboxChange = async (rowIndex: number, columnName: string) => {
+    // Obtener la fila correspondiente
+    const updatedRecords = [...originalRecords];
+    const updatedRow = { ...updatedRecords[rowIndex] };
+
+    // Modificar el valor del booleano en la columna especificada
+    try {
+      if (columnName === "porton") {
+        await axios.patch(`/api/servicio/deCasa/${updatedRow.num_casa}`, {
+          porton: !updatedRow.servicio.porton,
+        });
+      } else if (columnName === "estacionamiento") {
+        await axios.patch(`/api/servicio/deCasa/${updatedRow.num_casa}`, {
+          estacionamiento: !updatedRow.servicio.estacionamiento,
+        });
+      } else if (columnName === "basura") {
+        await axios.patch(`/api/servicio/deCasa/${updatedRow.num_casa}`, {
+          basura: !updatedRow.servicio.basura,
+        });
+      }
+      updateCasa();
+    } catch (err) {
+      console.log("Error al intentar modificar servicio:", err);
+    }
+  };
+
+  const columns = [
+    {
+      name: "Numero Casa",
+      selector: (row: casa) => row.num_casa,
+      sortable: true,
+    },
+    {
+      name: "Calle",
+      selector: (row: casa) => row.calle,
+      sortable: true,
+    },
+    {
+      name: "Numero Habitantes",
+      selector: (row: casa) => row.num_habitantes,
+      sortable: true,
+    },
+    {
+      name: "Telefono 1",
+      selector: (row: casa) => row.telefono1,
+    },
+    {
+      name: "Telefono 2",
+      selector: (row: casa) => row.telefono2,
+    },
+    {
+      name: "Propietario",
+      selector: (row: casa) =>
+        row.habitantes.length > 0
+          ? `${row.habitantes[0].nombre} ${row.habitantes[0].ap} ${row.habitantes[0].am}`
+          : "Sin habitantes",
+      sortable: true,
+    },
+    {
+      name: "Porton",
+      cell: (row: casa, rowIndex: number) => (
+        <input
+          type="checkbox"
+          checked={row.servicio.porton}
+          onChange={() => handleCheckboxChange(rowIndex, "porton")}
+        />
+      ),
+    },
+    {
+      name: "Estacionamiento",
+      cell: (row: casa, rowIndex: number) => (
+        <input
+          type="checkbox"
+          checked={row.servicio.estacionamiento}
+          onChange={() => handleCheckboxChange(rowIndex, "estacionamiento")}
+        />
+      ),
+    },
+    {
+      name: "Basura",
+      cell: (row: casa, rowIndex: number) => (
+        <input
+          type="checkbox"
+          checked={row.servicio.basura}
+          onChange={() => handleCheckboxChange(rowIndex, "basura")}
+        />
+      ),
+    },
+  ];
+
   const customStyles = {
     rows: {
       style: {
-        minHeight: "60px", // override the row height
+        minHeight: "60px",
         width: "100%",
         "&:hover": {
-          backgroundColor: "#f2f2f2", // Cambiar el color de fondo al pasar el ratón por encima
-          cursor: "pointer", // Cambiar el cursor al pasar el ratón por encima
+          backgroundColor: "#f2f2f2",
+          cursor: "pointer",
         },
       },
     },
     headCells: {
       style: {
-        paddingLeft: "8px", // override the cell padding for head cells
+        paddingLeft: "8px",
         paddingRight: "8px",
         marginTop: "0%",
       },
     },
     cells: {
       style: {
-        paddingLeft: "8px", // override the cell padding for data cells
+        paddingLeft: "8px",
         paddingRight: "8px",
       },
     },

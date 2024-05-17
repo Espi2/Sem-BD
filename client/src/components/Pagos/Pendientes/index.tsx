@@ -128,7 +128,6 @@ const PagosPendientes = () => {
     {
       name: "Pagado",
       selector: (row) => (row.pagado ? "Sí" : "No"),
-      sortable: true,
     },
     {
       name: "Liquidar",
@@ -143,6 +142,8 @@ const PagosPendientes = () => {
             alignItems: "center",
             height: "45px",
             width: "45px",
+            backgroundColor: "#c91be0",
+            borderColor: "#c91be0",
           }}
         >
           <Check2 size={100} />
@@ -152,12 +153,6 @@ const PagosPendientes = () => {
     },
   ];
 
-  /* 
-  <Button onClick={() => handleShowEditar(row)}>
-          <PencilSquare />
-        </Button>
-  */
-
   const handleChange = (e) => {
     const searchText = e.target.value.toLowerCase();
     const filteredData = originalRecords.filter((record: cuota) =>
@@ -166,31 +161,79 @@ const PagosPendientes = () => {
     setFilteredRecords(filteredData);
   };
 
+  const getRowClassName = (row) => {
+    const deadlineDate = new Date(parsearFecha(row.fecha_limite)).getTime(); // Parsear la fecha límite usando la función parsearFecha
+    const currentDate = new Date().getTime();
+
+    return deadlineDate > currentDate ? styles.rowRed : "";
+  };
+
   const customStyles = {
     rows: {
       style: {
-        minHeight: "60px", // override the row height
+        minHeight: "60px",
         width: "100%",
         "&:hover": {
-          backgroundColor: "#f2f2f2", // Cambiar el color de fondo al pasar el ratón por encima
-          cursor: "pointer", // Cambiar el cursor al pasar el ratón por encima
+          backgroundColor: "#f2f2f2",
+          cursor: "pointer",
         },
       },
+      // Aplica la clase de fila condicionalmente
+      className: (row) => getRowClassName(row),
     },
     headCells: {
       style: {
-        paddingLeft: "8px", // override the cell padding for head cells
+        paddingLeft: "8px",
         paddingRight: "8px",
         marginTop: "0%",
       },
     },
     cells: {
       style: {
-        paddingLeft: "8px", // override the cell padding for data cells
+        paddingLeft: "8px",
         paddingRight: "8px",
       },
     },
   };
+
+  function parsearFecha(fechaString) {
+    const meses = [
+      "enero",
+      "febrero",
+      "marzo",
+      "abril",
+      "mayo",
+      "junio",
+      "julio",
+      "agosto",
+      "septiembre",
+      "octubre",
+      "noviembre",
+      "diciembre",
+    ];
+
+    const fecha = new Date(fechaString);
+    const año = fecha.getFullYear();
+    const mesIndex = meses.indexOf(
+      fecha.toLocaleDateString("es", { month: "long" })
+    );
+    const dia = fecha.getDate();
+    const mes = (mesIndex + 1).toString().padStart(2, "0");
+    const diaFormateado = dia.toString().padStart(2, "0");
+
+    return `${año}-${mes}-${diaFormateado}`;
+  }
+
+  const conditionalRowStyles = [
+    {
+      when: (row) =>
+        new Date(parsearFecha(row.fecha_limite)).getTime() >
+        new Date().getTime(),
+      style: {
+        backgroundColor: "red",
+      },
+    },
+  ];
 
   return (
     <div className={styles.contenedorPrincipal}>
@@ -207,6 +250,7 @@ const PagosPendientes = () => {
               columns={columns}
               data={filteredRecords}
               customStyles={customStyles}
+              conditionalRowStyles={conditionalRowStyles}
             />
           </div>
           <div style={{ display: "flex" }}>
