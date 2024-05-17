@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { json } from "body-parser";
 const prisma = new PrismaClient();
 
 import express, {
@@ -157,7 +158,7 @@ router.get("/familia/:num_casa", async (req, res) => {
   }
 });
 
-router.patch("/habitante/edit/:id", async (req, res) => {
+router.patch("/edit/:id", async (req, res) => {
   try {
     const id_habitante = parseInt(req.params.id);
 
@@ -176,16 +177,24 @@ router.patch("/habitante/edit/:id", async (req, res) => {
   }
 });
 
-router.delete("/habitante/elim/:id", async (req, res) => {
+router.delete("/elim/:id", async (req, res) => {
   try {
     const id_habitante = parseInt(req.params.id);
 
-    const deleteHabitant = await prisma.habitante.delete({
+    const habitante = await prisma.habitante.findUnique({
       where: { id_habitante },
     });
 
-    if (deleteHabitant) {
-      res.status(200).json(deleteHabitant);
+    if (habitante) {
+      const deleteHabitant = await prisma.habitante.delete({
+        where: { id_habitante },
+      });
+
+      if (deleteHabitant) {
+        res.status(200).json(deleteHabitant);
+      } else {
+        res.status(404).json({ error: "Habitante no encontrado" });
+      }
     } else {
       res.status(404).json({ error: "Habitante no encontrado" });
     }

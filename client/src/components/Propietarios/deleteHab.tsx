@@ -1,17 +1,16 @@
+// eliminarHab.jsx
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 import axios from "axios";
 
-export default function eliminarHab({ show, handleClose, id_habitante }) {
+const EliminarHab = ({ show, handleClose, id_habitante }) => {
   const eliminarHabitante = async () => {
     try {
-      await axios.patch(`/api/habitante/elim/${id_habitante}`, {
-        pagado: true,
-      });
+      await axios.delete(`/api/habitante/elim/${id_habitante}`);
+      handleClose(); // Cerrar el modal después de eliminar
     } catch (err) {
       console.log("Error al eliminar habitante:", err);
     }
-    handleClose(true);
   };
 
   return (
@@ -23,7 +22,7 @@ export default function eliminarHab({ show, handleClose, id_habitante }) {
         <div className="d-flex justify-content-center">
           <Button
             variant="primary"
-            type="submit"
+            type="button" // Cambiado de "submit" a "button"
             onClick={eliminarHabitante}
             className="w-90"
           >
@@ -33,4 +32,6 @@ export default function eliminarHab({ show, handleClose, id_habitante }) {
       </Modal.Body>
     </Modal>
   );
-}
+};
+
+export default EliminarHab;
