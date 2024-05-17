@@ -157,18 +157,35 @@ router.get("/familia/:num_casa", async (req, res) => {
   }
 });
 
-router.patch("/habitante/:num_casa/:nombrec", async (req, res) => {
-  const { num_casa, nombrec } = req.params;
-  const { nombre, ap, am } = req.body;
-
+router.patch("/habitante/edit/:id", async (req, res) => {
   try {
+    const id_habitante = parseInt(req.params.id);
+
     const updatedHabitante = await prisma.habitante.update({
-      where: { num_casa_fk: parseInt(num_casa), nombre: nombrec },
-      data: { nombre, ap, am },
+      where: { id_habitante },
+      data: req.body,
     });
 
     if (updatedHabitante) {
       res.status(200).json(updatedHabitante);
+    } else {
+      res.status(404).json({ error: "Habitante no encontrado" });
+    }
+  } catch (err) {
+    res.status(500).json({ error: "Error al actualizar habitante", err });
+  }
+});
+
+router.delete("/habitante/elim/:id", async (req, res) => {
+  try {
+    const id_habitante = parseInt(req.params.id);
+
+    const deleteHabitant = await prisma.habitante.delete({
+      where: { id_habitante },
+    });
+
+    if (deleteHabitant) {
+      res.status(200).json(deleteHabitant);
     } else {
       res.status(404).json({ error: "Habitante no encontrado" });
     }

@@ -29,7 +29,7 @@ export default function PropietariosComp() {
   const [familia, setFamilia] = useState<{ [key: number]: familiar[] }>({});
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
   const [showAddForm, setShowAddForm] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false); // State to control the edit modal
+  const [showEditModal, setShowEditModal] = useState(false);
   const [selectedPropietario, setSelectedPropietario] =
     useState<propietario | null>(null);
   const [selectedHabitante, setSelectedHabitante] = useState(null);
@@ -55,6 +55,7 @@ export default function PropietariosComp() {
     setShowEditModal(false);
     if (refresh) {
       updateData();
+    }
   };
 
   useEffect(() => {
@@ -171,18 +172,22 @@ export default function PropietariosComp() {
   };
 
   const handleRowExpand = async (expanded, row: propietario) => {
-    if (expanded && !familia[row.num_casa_fk]) {
+    if (expanded) {
       setExpandedRow(row.num_casa_fk);
-      try {
-        const response = await axios.get(
-          `/api/habitante/familia/${row.num_casa_fk}`
-        );
-        setFamilia((prevFamilia) => ({
-          ...prevFamilia,
-          [row.num_casa_fk]: response.data,
-        }));
-      } catch (error) {
-        console.error("Error al obtener los datos de la familia:", error);
+
+      if (!familia[row.num_casa_fk]) {
+        try {
+          const response = await axios.get(
+            `/api/habitante/familia/${row.num_casa_fk}`
+          );
+          setFamilia((prevFamilia) => ({
+            ...prevFamilia,
+            [row.num_casa_fk]: response.data,
+          }));
+          console.log(familia);
+        } catch (error) {
+          console.error("Error al obtener los datos de la familia:", error);
+        }
       }
     } else {
       setExpandedRow(null);
@@ -234,7 +239,9 @@ export default function PropietariosComp() {
               expandableRowsComponent={({ data }) => (
                 <SubTable data={familia[data.num_casa_fk] || []} />
               )}
-              onRowExpandToggled={handleRowExpand}
+              onRowExpandToggled={(expanded, row) =>
+                handleRowExpand(expanded, row)
+              }
               expandableRowExpanded={(row) => expandedRow === row.num_casa_fk}
               noDataComponent="No hay registros para mostrar"
               onRowClicked={handleShowAddForm}
@@ -254,7 +261,8 @@ export default function PropietariosComp() {
         show={showEditModal}
         handleClose={handleCloseEditModal}
         rowData={selectedHabitante}
-        rowDataPropietario={expandedRow}
+        dataFamilia={familia}
+        //rowDataPropietario={expandedRow}
       />
     </div>
   );

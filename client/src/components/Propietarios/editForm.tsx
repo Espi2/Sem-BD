@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Form, Button, Col } from "react-bootstrap";
 import axios from "axios";
+import eliminarHab from "./deleteHab";
 
-const EditHabitantModal = ({
-  show,
-  handleClose,
-  rowData,
-  rowDataPropietario,
-}) => {
+type Habitante = {
+  id_habitante: string;
+  nombre: string;
+  ap: string;
+  am: string;
+};
+
+const EditHabitantModal = ({ show, handleClose, rowData, dataFamilia }) => {
   const [habitantData, setHabitantData] = useState({
-    num_casa_fk: "",
+    id_habitante: "",
     nombre: "",
     ap: "",
     am: "",
@@ -17,14 +20,25 @@ const EditHabitantModal = ({
 
   useEffect(() => {
     if (rowData) {
-      setHabitantData({
-        num_casa_fk: rowDataPropietario.num_casa_fk,
-        nombre: rowData.nombre,
-        ap: rowData.ap,
-        am: rowData.am,
-      });
+      const familia: Habitante[] = Object.values(dataFamilia).flat();
+      const habitanteEncontrado = familia.find(
+        (habitante: Habitante) =>
+          habitante.nombre === rowData?.nombre &&
+          habitante.ap === rowData?.ap &&
+          habitante.am === rowData?.am
+      );
+
+      if (habitanteEncontrado) {
+        setHabitantData({
+          ...habitantData,
+          id_habitante: habitanteEncontrado.id_habitante,
+          nombre: habitanteEncontrado.nombre,
+          ap: habitanteEncontrado.ap,
+          am: habitanteEncontrado.am,
+        });
+      }
     }
-  }, [rowData, rowDataPropietario]);
+  }, [rowData, dataFamilia]);
 
   const handleHabitantChange = (e) => {
     const { name, value } = e.target;
@@ -35,7 +49,12 @@ const EditHabitantModal = ({
     e.preventDefault();
 
     try {
-      await axios.patch(`/api/habitante/${rowData.id_habitante}`, habitantData);
+      const { id_habitante, nombre, ap, am } = habitantData;
+      await axios.patch(`/api/habitante/${id_habitante}`, {
+        nombre,
+        ap,
+        am,
+      });
       handleClose(true);
     } catch (error) {
       console.log(error);
