@@ -92,4 +92,4 @@ const EditHabitantModal = ({
   );
 };
 
-export default editForm;
+export default EditHabitantModal;
