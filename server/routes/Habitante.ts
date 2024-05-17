@@ -157,4 +157,24 @@ router.get("/familia/:num_casa", async (req, res) => {
   }
 });
 
+router.patch("/habitante/:num_casa/:nombrec", async (req, res) => {
+  const { num_casa, nombrec } = req.params;
+  const { nombre, ap, am } = req.body;
+
+  try {
+    const updatedHabitante = await prisma.habitante.update({
+      where: { num_casa_fk: parseInt(num_casa), nombre: nombrec },
+      data: { nombre, ap, am },
+    });
+
+    if (updatedHabitante) {
+      res.status(200).json(updatedHabitante);
+    } else {
+      res.status(404).json({ error: "Habitante no encontrado" });
+    }
+  } catch (err) {
+    res.status(500).json({ error: "Error al actualizar habitante", err });
+  }
+});
+
 export default router;
