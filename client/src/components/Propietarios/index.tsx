@@ -28,7 +28,6 @@ export default function PropietariosComp() {
   const [records, setRecords] = useState<propietario[]>([]);
   const [familia, setFamilia] = useState<{ [key: number]: familiar[] }>({});
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
-<<<<<<< HEAD
   const [showAddForm, setShowAddForm] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false); // State to control the edit modal
   const [selectedPropietario, setSelectedPropietario] =
@@ -49,17 +48,14 @@ export default function PropietariosComp() {
 
   const handleShowEditModal = (row) => {
     setSelectedHabitante(row);
-    setShowEditModal(true); // Open the edit modal
+    setShowEditModal(true);
   };
 
   const handleCloseEditModal = (refresh) => {
     setShowEditModal(false);
     if (refresh) {
-      updateData(); // Fetch data again to update the table after editing
-    }
+      updateData();
   };
-=======
->>>>>>> 5eff7cc948d89581563726642adca90d8d197706
 
   useEffect(() => {
     const fetchData = async () => {
@@ -175,11 +171,7 @@ export default function PropietariosComp() {
   };
 
   const handleRowExpand = async (expanded, row: propietario) => {
-<<<<<<< HEAD
     if (expanded && !familia[row.num_casa_fk]) {
-=======
-    if (expanded) {
->>>>>>> 5eff7cc948d89581563726642adca90d8d197706
       setExpandedRow(row.num_casa_fk);
       try {
         const response = await axios.get(
@@ -245,10 +237,7 @@ export default function PropietariosComp() {
               onRowExpandToggled={handleRowExpand}
               expandableRowExpanded={(row) => expandedRow === row.num_casa_fk}
               noDataComponent="No hay registros para mostrar"
-<<<<<<< HEAD
               onRowClicked={handleShowAddForm}
-=======
->>>>>>> 5eff7cc948d89581563726642adca90d8d197706
             />
           </div>
         </div>
