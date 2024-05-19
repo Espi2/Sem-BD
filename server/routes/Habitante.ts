@@ -24,7 +24,24 @@ router.post("/", async (req, res) => {
       },
     });
     if (nuevoHabitante) {
-      res.status(200).json(nuevoHabitante);
+      const casa = await prisma.casa.findUnique({
+        where: { num_casa: num_casa_fk },
+      });
+
+      // Verifica si la casa existe
+      if (!casa) {
+        return res
+          .status(404)
+          .json("No se encontró la casa en la que se agregó el habitante");
+      }
+
+      await prisma.casa.update({
+        where: { num_casa: num_casa_fk },
+        data: {
+          num_habitantes: casa.num_habitantes + 1,
+        },
+      });
+      return nuevoHabitante;
     } else {
       res.status(403).json({ error: "Mala peticion para habitante" });
     }
@@ -188,6 +205,24 @@ router.delete("/elim/:id", async (req, res) => {
     if (habitante) {
       const deleteHabitant = await prisma.habitante.delete({
         where: { id_habitante },
+      });
+
+      const casa = await prisma.casa.findUnique({
+        where: { num_casa: habitante.num_casa_fk },
+      });
+
+      // Verifica si la casa existe
+      if (!casa) {
+        return res
+          .status(404)
+          .json("No se encontró la casa en la que se eliminó el habitante");
+      }
+
+      await prisma.casa.update({
+        where: { num_casa: habitante.num_casa_fk },
+        data: {
+          num_habitantes: casa.num_habitantes - 1,
+        },
       });
 
       if (deleteHabitant) {

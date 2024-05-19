@@ -68,7 +68,7 @@ const Table = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/api/casa/");
+        const response = await axios.get("/api/casa/todas/");
         setOriginalRecords(response.data.casas);
         setFilteredRecords(response.data.casas);
       } catch (error) {
@@ -81,7 +81,7 @@ const Table = () => {
 
   const updateCasa = async () => {
     try {
-      const response = await axios.get("/api/casa/");
+      const response = await axios.get("/api/casa/todas/");
       setOriginalRecords(response.data.casas);
       setFilteredRecords(response.data.casas);
     } catch (error) {

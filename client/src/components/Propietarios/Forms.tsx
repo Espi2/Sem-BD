@@ -52,7 +52,7 @@ const AddHabitantForm = ({ show, handleClose, selectedPropietario }) => {
           ap: "",
           am: "",
         });
-        handleClose();
+        handleClose(true);
       } catch (error) {
         console.error("Error al agregar habitante:", error);
       }
@@ -71,6 +71,7 @@ const AddHabitantForm = ({ show, handleClose, selectedPropietario }) => {
         console.log(error);
       }
     }
+    handleClose(true);
   };
 
   const renderAddForm = () => (
@@ -156,7 +157,7 @@ const AddHabitantForm = ({ show, handleClose, selectedPropietario }) => {
   );
 
   return (
-    <Modal show={show} onHide={handleClose} centered>
+    <Modal show={show} onHide={() => handleClose(false)} centered>
       <Modal.Header closeButton>
         <Modal.Title className="w-100 text-center">
           {activeTab === "agregar" ? "Agregar habitante" : "Editar propietario"}

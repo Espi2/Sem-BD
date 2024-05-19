@@ -41,9 +41,7 @@ export default function PropietariosComp() {
 
   const handleCloseAddForm = (refresh) => {
     setShowAddForm(false);
-    if (refresh) {
-      updateData();
-    }
+    updateData();
   };
 
   const handleShowEditModal = (row) => {
@@ -258,7 +256,7 @@ export default function PropietariosComp() {
       {selectedPropietario && (
         <AddHabitantForm
           show={showAddForm}
-          handleClose={() => handleCloseAddForm(true)}
+          handleClose={handleCloseAddForm}
           selectedPropietario={selectedPropietario}
         />
       )}

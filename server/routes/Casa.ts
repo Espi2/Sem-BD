@@ -10,11 +10,15 @@ import express, {
 } from "express";
 const router: Router = express.Router();
 
-router.get("/", async (req: Request, res: Response) => {
+router.get("/todas/", async (req: Request, res: Response) => {
   try {
     const casas = await prisma.casa.findMany({
       include: {
-        habitantes: true,
+        habitantes: {
+          where: {
+            propietario: true,
+          },
+        },
         cuota: true,
         servicio: true,
       },
@@ -94,8 +98,7 @@ router.post("/", async (req, res) => {
 });
 
 router.post("/casa_y_propietario", async (req, res) => {
-  const { num_casa, calle, num_habitantes, telefono1, telefono2, propietario } =
-    req.body;
+  const { num_casa, calle, telefono1, telefono2, propietario } = req.body;
 
   try {
     await prisma.$transaction(async (prisma) => {
@@ -103,7 +106,7 @@ router.post("/casa_y_propietario", async (req, res) => {
         data: {
           num_casa,
           calle,
-          num_habitantes,
+          num_habitantes: 1,
           telefono1,
           telefono2,
         },

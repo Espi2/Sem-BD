@@ -6,7 +6,6 @@ const AddHouseAndPersonForm = ({ show, handleClose }) => {
   const [houseData, setHouseData] = useState({
     num_casa: "",
     calle: "",
-    num_habitantes: "",
     telefono1: "",
     telefono2: "",
   });
@@ -33,7 +32,6 @@ const AddHouseAndPersonForm = ({ show, handleClose }) => {
     await axios.post("/api/casa/casa_y_propietario", {
       num_casa: parseInt(houseData.num_casa),
       calle: houseData.calle,
-      num_habitantes: parseInt(houseData.num_habitantes),
       telefono1: houseData.telefono1,
       telefono2: houseData.telefono2,
       propietario: {
@@ -46,7 +44,6 @@ const AddHouseAndPersonForm = ({ show, handleClose }) => {
     setHouseData({
       num_casa: "",
       calle: "",
-      num_habitantes: "",
       telefono1: "",
       telefono2: "",
     });
@@ -84,16 +81,6 @@ const AddHouseAndPersonForm = ({ show, handleClose }) => {
                   type="text"
                   name="calle"
                   value={houseData.calle}
-                  onChange={handleHouseChange}
-                  required
-                />
-              </Form.Group>
-              <Form.Group controlId="num_habitantes">
-                <Form.Label>Número de Habitantes *</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="num_habitantes"
-                  value={houseData.num_habitantes}
                   onChange={handleHouseChange}
                   required
                 />

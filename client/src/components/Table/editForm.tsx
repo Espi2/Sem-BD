@@ -6,7 +6,6 @@ const EditHouseModal = ({ show, handleClose, rowData }) => {
   const [houseData, setHouseData] = useState({
     num_casa: "",
     calle: "",
-    num_habitantes: "",
     telefono1: "",
     telefono2: "",
   });
@@ -17,7 +16,6 @@ const EditHouseModal = ({ show, handleClose, rowData }) => {
       setHouseData({
         num_casa: rowData.num_casa,
         calle: rowData.calle,
-        num_habitantes: rowData.num_habitantes,
         telefono1: rowData.telefono1,
         telefono2: rowData.telefono2,
       });
@@ -36,7 +34,6 @@ const EditHouseModal = ({ show, handleClose, rowData }) => {
       await axios.patch(`/api/casa/${rowData.num_casa}`, {
         num_casa: parseInt(houseData.num_casa),
         calle: houseData.calle,
-        num_habitantes: parseInt(houseData.num_habitantes),
         telefono1: houseData.telefono1,
         telefono2: houseData.telefono2,
       });
@@ -73,16 +70,6 @@ const EditHouseModal = ({ show, handleClose, rowData }) => {
                 type="text"
                 name="calle"
                 value={houseData.calle}
-                onChange={handleHouseChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group controlId="habitantes">
-              <Form.Label>Numero de habitantes</Form.Label>
-              <Form.Control
-                type="text"
-                name="num_habitantes"
-                value={houseData.num_habitantes}
                 onChange={handleHouseChange}
                 required
               />
