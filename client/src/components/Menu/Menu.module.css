@@ -4,41 +4,53 @@
   background-color: #f0e6f6;
   position: fixed;
   top: 0;
-  left: 0px;
-  transition: right 0.3s ease-in-out;
+  left: 0;
+  bottom: 0;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  overflow-y: auto;
 }
 
 .open {
-  right: 0;
+  transform: translateX(0);
 }
 
 .menuButton {
   padding: 10px;
   cursor: pointer;
+  position: fixed; /* Fijamos la posición para que siempre esté visible */
+  top: 10px;
+  left: 10px;
+  z-index: 1100; /* Aseguramos que el botón esté encima de la sidebar */
+  height: 5%;
+  background-color: #f0e6f6;
 }
 
 .options {
   padding: 20px;
+  margin-top: 40px; /* Para evitar superposición con el botón de menú */
 }
 
 .option {
-  padding: 20px;
+  padding: 10px 20px;
   cursor: pointer;
   transition: background-color 0.3s ease-in-out;
+  border-radius: 2rem;
 }
 
 .option:hover {
-  background-color: #d1c4e9;
+  background-color: #e0e0e0;
 }
 
 .selected {
-  background-color: #ba68c8;
+  background-color: #d1c4e9;
 }
 
 .subOption {
-  padding: 20px;
+  padding: 10px 20px;
   padding-left: 50px;
   transition: background-color 0.3s ease-in-out;
+  border-radius: 2rem;
 }
 
 .subOption:hover {

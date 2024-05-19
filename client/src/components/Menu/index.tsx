@@ -5,16 +5,13 @@ import Register from "../Register/index.tsx";
 import PropietariosComp from "../Propietarios/index.tsx";
 import PagosPendientes from "../Pagos/Pendientes/index.tsx";
 import PagosResueltos from "../Pagos/Resueltos/index.tsx";
-import { useNavigate } from "react-router-dom";
-
 import SalirModal from "./salirModal.tsx";
 
 const Menu = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [isPaymentsOpen, setIsPaymentsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [showSalir, setShowSalir] = useState(false);
-  const navigate = useNavigate();
 
   const handleShowSalir = () => {
     setShowSalir(true);
@@ -38,10 +35,10 @@ const Menu = () => {
 
   return (
     <div>
+      <div className={styles.menuButton} onClick={toggleSidebar}>
+        Menu
+      </div>
       <div className={`${styles.sidebar} ${isOpen ? styles.open : ""}`}>
-        <div className={styles.menuButton} onClick={toggleSidebar}>
-          Menu
-        </div>
         <div className={styles.options}>
           <div
             className={`${styles.option} ${
@@ -101,14 +98,6 @@ const Menu = () => {
             className={`${styles.option} ${
               selectedOption === "Soporte" ? styles.selected : ""
             }`}
-            onClick={() => handleOptionClick("Soporte")}
-          >
-            Soporte
-          </div>
-          <div
-            className={`${styles.option} ${
-              selectedOption === "Soporte" ? styles.selected : ""
-            }`}
             onClick={handleShowSalir}
           >
             Salir
@@ -128,7 +117,7 @@ const Menu = () => {
         ) : selectedOption === "Adeudos" ? (
           <PagosPendientes />
         ) : (
-          <div>Loading...</div>
+          ""
         )}
       </div>
 

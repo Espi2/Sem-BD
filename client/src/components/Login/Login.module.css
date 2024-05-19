@@ -4,11 +4,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 80vh;
 }
 
 .title {
-  position: absolute;
   top: 25%;
 }
 
@@ -53,4 +52,18 @@
   border-radius: 2rem;
   font-size: 1rem;
   text-align: center;
+}
+
+.navbar-letra {
+  font-size: 36px;
+}
+
+.dot {
+  height: 25px;
+  width: 25px;
+  background-color: #000000;
+  border-radius: 50%;
+  display: inline-block;
+  z-index: 1100;
+  position: absolute;
 }

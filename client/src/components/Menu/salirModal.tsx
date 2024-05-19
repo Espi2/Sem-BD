@@ -14,7 +14,7 @@ export default function SalirModal({ show, handleClose }) {
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title className="w-100 text-center">Segur@?</Modal.Title>
+        <Modal.Title className="w-100 text-center">¿Estas segur@?</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className="d-flex justify-content-center">

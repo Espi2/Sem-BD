@@ -96,3 +96,16 @@ table {
   z-index: 1000000 !important;
   background-color: aqua;
 }
+
+.dataTable {
+  border-collapse: separate; /* Asegurar que no colapse las celdas */
+  border-spacing: 0; /* Eliminar el espacio entre celdas */
+}
+
+.dataTable thead th:first-child {
+  border-top-left-radius: 10px; /* Esquina superior izquierda redondeada */
+}
+
+.dataTable thead th:last-child {
+  border-top-right-radius: 10px; /* Esquina superior derecha redondeada */
+}

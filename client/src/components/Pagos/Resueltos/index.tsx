@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Button } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import styles from "./Resueltos.module.css";
 
@@ -79,31 +78,25 @@ const PagosResueltos = () => {
     setFilteredRecords(filteredData);
   };
 
-  const getRowClassName = (row) => {
-    const deadlineDate = new Date(row.fecha_limite);
-    const currentDate = new Date();
-
-    return deadlineDate > currentDate ? styles.rowRed : "";
-  };
-
   const customStyles = {
     rows: {
       style: {
         minHeight: "60px",
         width: "100%",
+        backgroundColor: "#e0e0e0",
+        marginBottom: "1px",
         "&:hover": {
-          backgroundColor: "#f2f2f2",
+          backgroundColor: "#d0d0d0",
           cursor: "pointer",
         },
       },
-      // Aplica la clase de fila condicionalmente
-      className: (row) => getRowClassName(row),
     },
     headCells: {
       style: {
         paddingLeft: "8px",
         paddingRight: "8px",
         marginTop: "0%",
+        backgroundColor: "#b0b0b0",
       },
     },
     cells: {

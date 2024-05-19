@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Button, Modal } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import AddHouseAndPersonForm from "./Forms.tsx";
 import EditHouseModal from "./editForm.tsx";
@@ -197,8 +196,10 @@ const Table = () => {
       style: {
         minHeight: "60px",
         width: "100%",
+        backgroundColor: "#e0e0e0",
+        marginBottom: "1px",
         "&:hover": {
-          backgroundColor: "#f2f2f2",
+          backgroundColor: "#d0d0d0",
           cursor: "pointer",
         },
       },
@@ -208,6 +209,7 @@ const Table = () => {
         paddingLeft: "8px",
         paddingRight: "8px",
         marginTop: "0%",
+        backgroundColor: "#b0b0b0",
       },
     },
     cells: {
@@ -230,6 +232,7 @@ const Table = () => {
           />
           <div className={styles.containerTable}>
             <DataTable
+              className="dataTable"
               columns={columns}
               data={filteredRecords}
               customStyles={customStyles}

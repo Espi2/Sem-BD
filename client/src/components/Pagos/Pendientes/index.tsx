@@ -25,37 +25,22 @@ const PagosPendientes = () => {
   const [showConfirmar, setShowConfirmar] = useState(false);
   const [Sid_cuota, setSid_cuota] = useState();
 
-  const handleShowGeneral = () => {
-    setShowGeneralForm(true);
-  };
-
+  const handleShowGeneral = () => setShowGeneralForm(true);
   const handleCloseGeneral = (flag) => {
     setShowGeneralForm(false);
-    if (flag) {
-      updateCuotas();
-    }
+    if (flag) updateCuotas();
   };
 
-  const handleShowIndividual = () => {
-    setShowIndividualForm(true);
-  };
-
+  const handleShowIndividual = () => setShowIndividualForm(true);
   const handleCloseIndividual = (flag) => {
     setShowIndividualForm(false);
-    if (flag) {
-      updateCuotas();
-    }
+    if (flag) updateCuotas();
   };
 
-  const handleShowConfirmar = () => {
-    setShowConfirmar(true);
-  };
-
+  const handleShowConfirmar = () => setShowConfirmar(true);
   const handleCloseConfirmar = (flag) => {
     setShowConfirmar(false);
-    if (flag) {
-      updateCuotas();
-    }
+    if (flag) updateCuotas();
   };
 
   useEffect(() => {
@@ -81,7 +66,6 @@ const PagosPendientes = () => {
         console.error("Error al obtener los datos de las cuotas:", error);
       }
     };
-
     fetchData();
   }, []);
 
@@ -161,31 +145,25 @@ const PagosPendientes = () => {
     setFilteredRecords(filteredData);
   };
 
-  const getRowClassName = (row) => {
-    const deadlineDate = new Date(parsearFecha(row.fecha_limite)).getTime(); // Parsear la fecha límite usando la función parsearFecha
-    const currentDate = new Date().getTime();
-
-    return deadlineDate > currentDate ? styles.rowRed : "";
-  };
-
   const customStyles = {
     rows: {
       style: {
         minHeight: "60px",
         width: "100%",
+        backgroundColor: "#e0e0e0",
+        marginBottom: "1px",
         "&:hover": {
-          backgroundColor: "#f2f2f2",
+          backgroundColor: "#d0d0d0",
           cursor: "pointer",
         },
       },
-      // Aplica la clase de fila condicionalmente
-      className: (row) => getRowClassName(row),
     },
     headCells: {
       style: {
         paddingLeft: "8px",
         paddingRight: "8px",
         marginTop: "0%",
+        backgroundColor: "#b0b0b0",
       },
     },
     cells: {
@@ -196,44 +174,44 @@ const PagosPendientes = () => {
     },
   };
 
-  function parsearFecha(fechaString) {
-    const meses = [
-      "enero",
-      "febrero",
-      "marzo",
-      "abril",
-      "mayo",
-      "junio",
-      "julio",
-      "agosto",
-      "septiembre",
-      "octubre",
-      "noviembre",
-      "diciembre",
-    ];
-
-    const fecha = new Date(fechaString);
-    const año = fecha.getFullYear();
-    const mesIndex = meses.indexOf(
-      fecha.toLocaleDateString("es", { month: "long" })
-    );
-    const dia = fecha.getDate();
-    const mes = (mesIndex + 1).toString().padStart(2, "0");
-    const diaFormateado = dia.toString().padStart(2, "0");
-
-    return `${año}-${mes}-${diaFormateado}`;
-  }
-
   const conditionalRowStyles = [
     {
-      when: (row) =>
-        new Date(parsearFecha(row.fecha_limite)).getTime() >
-        new Date().getTime(),
+      when: (row) => {
+        const deadlineDate = new Date(parsearFecha(row.fecha_limite)).getTime();
+        const currentDate = new Date().getTime();
+        return deadlineDate < currentDate;
+      },
       style: {
-        backgroundColor: "red",
+        backgroundColor: "#f05c5c",
+        "&:hover": {
+          backgroundColor: "#f76e6e",
+          cursor: "pointer",
+        },
       },
     },
   ];
+
+  function parsearFecha(fechaString) {
+    const parts = fechaString.split(" ");
+    const day = parts[1];
+    const month = parts[3];
+    const year = parts[5];
+    const monthMapping = {
+      enero: "01",
+      febrero: "02",
+      marzo: "03",
+      abril: "04",
+      mayo: "05",
+      junio: "06",
+      julio: "07",
+      agosto: "08",
+      septiembre: "09",
+      octubre: "10",
+      noviembre: "11",
+      diciembre: "12",
+    };
+    return `${year}-${monthMapping[month]}-${day.padStart(2, "0")}`;
+  }
 
   return (
     <div className={styles.contenedorPrincipal}>

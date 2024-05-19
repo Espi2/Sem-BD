@@ -122,8 +122,11 @@ export default function PropietariosComp() {
       style: {
         minHeight: "60px",
         width: "100%",
+        backgroundColor: "#e0e0e0",
+        borderRadius: "10px",
+        marginBottom: "1px",
         "&:hover": {
-          backgroundColor: "#f2f2f2",
+          backgroundColor: "#d0d0d0",
           cursor: "pointer",
         },
       },
@@ -133,6 +136,7 @@ export default function PropietariosComp() {
         paddingLeft: "8px",
         paddingRight: "8px",
         marginTop: "0%",
+        backgroundColor: "#b0b0b0",
       },
     },
     cells: {
@@ -149,15 +153,17 @@ export default function PropietariosComp() {
         backgroundColor: "#f2f2f2",
         minHeight: "60px",
         width: "100%",
+        borderRadius: "10px",
+        marginBottom: "1px",
         "&:hover": {
-          backgroundColor: "#6e6e6e",
+          backgroundColor: "#d0d0d0",
           cursor: "pointer",
         },
       },
     },
     headCells: {
       style: {
-        backgroundColor: "#f2f2f2",
+        backgroundColor: "#b0b0b0",
         paddingLeft: "8px",
         paddingRight: "8px",
         marginTop: "0%",

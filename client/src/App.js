@@ -24,11 +24,6 @@ function App() {
 
   return (
     <div>
-      <nav className="navbar bg-body-tertiary">
-        <div className="container-fluid">
-          <span className="navbar-letra mb-0 h1">Granate</span>
-        </div>
-      </nav>
       <Login></Login>
     </div>
   );

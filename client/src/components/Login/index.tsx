@@ -38,44 +38,53 @@ function Login() {
   }, [navigate, isLoggedIn]);
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Sign In</h1>
-      <form
-        className={styles.form}
-        onSubmit={handleSubmit}
-        style={{ marginTop: error ? "75px" : "0" }}
-      >
-        <div className={styles.inputGroup}>
-          <label htmlFor="inputUsername" className={styles.label}>
-            Usuario
-          </label>
-          <input
-            type="text"
-            className={styles.input}
-            id="inputUsername"
-            value={usuario}
-            onChange={(e) => setUsuario(e.target.value)}
-            placeholder="Usuario"
-          />
-        </div>
-        <div className={styles.inputGroup}>
-          <label htmlFor="inputPassword" className={styles.label}>
-            Contraseña
-          </label>
-          <input
-            type="password"
-            className={styles.input}
-            id="inputPassword"
-            value={contrasena}
-            onChange={(e) => setContrasena(e.target.value)}
-            placeholder="Contraseña"
-          />
-        </div>
-        <button type="submit" className={styles.btn}>
-          Login
-        </button>
-      </form>
-      {error && <div className="alert alert-danger">{error}</div>}
+    <div>
+      <div>
+        <nav className="navbar bg-body-tertiary">
+          <div className="container-fluid">
+            <span className="navbar-letra mb-0 h1">Granate</span>
+          </div>
+        </nav>
+      </div>
+      <div className={styles.container}>
+        <h1 className={styles.title}>Sign In</h1>
+        <form
+          className={styles.form}
+          onSubmit={handleSubmit}
+          style={{ marginTop: error ? "75px" : "0" }}
+        >
+          <div className={styles.inputGroup}>
+            <label htmlFor="inputUsername" className={styles.label}>
+              Usuario
+            </label>
+            <input
+              type="text"
+              className={styles.input}
+              id="inputUsername"
+              value={usuario}
+              onChange={(e) => setUsuario(e.target.value)}
+              placeholder="Usuario"
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <label htmlFor="inputPassword" className={styles.label}>
+              Contraseña
+            </label>
+            <input
+              type="password"
+              className={styles.input}
+              id="inputPassword"
+              value={contrasena}
+              onChange={(e) => setContrasena(e.target.value)}
+              placeholder="Contraseña"
+            />
+          </div>
+          <button type="submit" className={styles.btn}>
+            Login
+          </button>
+        </form>
+        {error && <div className="alert alert-danger">{error}</div>}
+      </div>
     </div>
   );
 }
