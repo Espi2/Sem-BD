@@ -16,7 +16,6 @@ const Menu = () => {
   const [showSalir, setShowSalir] = useState(false);
   const [notificaciones, setNotificaciones] = useState<noti[]>([]);
   const [showModalNotis, setShowModalNotis] = useState(false);
-  const [areThereNotis, setAreThereNotis] = useState(false);
   const [usuario, setUsuario] = useState("");
 
   interface casa {
