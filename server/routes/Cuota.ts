@@ -109,13 +109,42 @@ router.get("/", async (req, res) => {
       },
     });
     if (!cuotas || cuotas.length === 0) {
-      return res.status(404).json({ error: "No se encontraron habitantes" });
+      return res.status(404).json({ error: "No se encontraron cuotas" });
     }
     res.status(200).json({ cuotas });
   } catch (err) {
     res
       .status(500)
-      .json({ error: "Fallo del servidor al recabar habitante", err });
+      .json({ error: "Fallo del servidor al recabar las cuotas", err });
+  }
+});
+
+router.get("/atrasadas", async (req, res) => {
+  try {
+    const cuotas = await prisma.cuota.findMany({
+      where: {
+        pagado: false,
+      },
+      include: {
+        casa: true,
+      },
+    });
+    if (!cuotas || cuotas.length === 0) {
+      return res.status(404);
+    }
+
+    const currDate = new Date();
+    const atrasados = cuotas.filter((cuota) => cuota.fecha_limite < currDate);
+
+    if (atrasados.length === 0) {
+      return res.status(404);
+    }
+
+    res.status(200).json({ atrasados });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ error: "Fallo del servidor al recabar las cuotas", err });
   }
 });
 

@@ -59,4 +59,21 @@ const maskPassword = async (password: string) => {
   return await bcrypt.hash(password, saltRounds);
 };
 
+router.get("/adminInfo/:usuario", async (req: Request, res: Response) => {
+  try {
+    const usuario = req.params.usuario;
+    const admin = await prisma.administrador.findUnique({
+      where: {
+        usuario,
+      },
+    });
+    if (!admin) {
+      return res.status(404).json({ error: "No se encontró el administrador" });
+    }
+    return res.status(200).json({ admin });
+  } catch (error) {
+    res.status(500).json({ error: "Fallo del servidor al autenticar" });
+  }
+});
+
 export default router;

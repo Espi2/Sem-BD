@@ -7,6 +7,7 @@ export default function SalirModal({ show, handleClose }) {
 
   const salirAlLogin = async () => {
     localStorage.setItem("isLoggedIn", "false");
+    localStorage.removeItem("NombreDeUsuario");
     navigate("/login");
     handleClose();
   };

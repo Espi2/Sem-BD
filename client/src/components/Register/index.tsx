@@ -18,7 +18,7 @@ function Register() {
 
       setTimeout(() => {
         setError("");
-      }, 5000);
+      }, 3000);
       return;
     }
 
@@ -31,8 +31,13 @@ function Register() {
         contrasena,
       });
 
-      console.log(response.data);
-      // Mostrar alerta de que el registro fue realizado exitosamente
+      alert("Administrador registrado");
+
+      setNombre("");
+      setAp("");
+      setAm("");
+      setUsuario("");
+      setContrasena("");
     } catch (error) {
       setError("Error al registrar usuario");
 

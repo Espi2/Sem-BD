@@ -17,10 +17,10 @@ function Login() {
         usuario,
         contrasena,
       });
-      console.log(response.data);
       if (response.data.message === "Autenticación correcta") {
         setIsLoggedIn(true);
         localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("NombreDeUsuario", response.data.nombre);
       }
     } catch (error) {
       setError("Usuario o contraseña incorrectos");
@@ -35,7 +35,7 @@ function Login() {
     if (isLoggedIn) {
       navigate("/menu");
     }
-  }, [navigate, isLoggedIn]);
+  }, [usuario, navigate, isLoggedIn]);
 
   return (
     <div>

@@ -23,7 +23,6 @@
   left: 10px;
   z-index: 1100; /* Aseguramos que el botón esté encima de la sidebar */
   height: 5%;
-  background-color: #f0e6f6;
 }
 
 .options {
@@ -32,6 +31,7 @@
 }
 
 .option {
+  border-top: #d1c4e9;
   padding: 10px 20px;
   cursor: pointer;
   transition: background-color 0.3s ease-in-out;
@@ -56,4 +56,43 @@
 .subOption:hover {
   cursor: pointer;
   background-color: #d1c4e9;
+}
+
+.lasNotis {
+  position: absolute;
+  top: 10px; /* Ajusta según tus necesidades */
+  right: 10px;
+  width: 50px; /* Ajusta el tamaño según tus necesidades */
+  height: 50px; /* Ajusta el tamaño según tus necesidades */
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0; /* Fondo por si la imagen no carga */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.lasNotis:hover {
+  cursor: pointer;
+}
+
+.bellImg {
+  width: 60%;
+  height: 60%;
+}
+
+.notificacionesList {
+  max-height: 300px; /* Ajusta el tamaño según sea necesario */
+  overflow-y: auto; /* Habilita el desplazamiento vertical */
+  padding: 10px;
+}
+
+.notiRecuadro {
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  background-color: #f8f9fa;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
 }

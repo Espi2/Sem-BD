@@ -11,7 +11,7 @@
 
 .title {
   position: absolute;
-  top: 5%;
+  top: 10%;
 }
 
 .form {
@@ -57,4 +57,10 @@
   border-radius: 2rem;
   font-size: 1rem;
   text-align: center;
+}
+
+.errorsillo {
+  position: absolute;
+  top: 90%;
+  left: 50%;
 }

@@ -198,6 +198,7 @@ const Table = () => {
         width: "100%",
         backgroundColor: "#e0e0e0",
         marginBottom: "1px",
+        outerHeight: "100%",
         "&:hover": {
           backgroundColor: "#d0d0d0",
           cursor: "pointer",
